@@ -6,14 +6,8 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { ICommit } from "../../interfaces";
 
 export const PostList: React.FC = () => {
-  const [next, setNext] = React.useState<string | undefined>(undefined);
   const { dataGridProps, tableQueryResult } = useDataGrid<ICommit>({
     initialPageSize: 5,
-    metaData: {
-      cursor: {
-        next,
-      },
-    },
   });
 
   const { data } = tableQueryResult;
@@ -67,14 +61,6 @@ export const PostList: React.FC = () => {
       <DataGrid
         getRowId={(row) => row.sha}
         {...dataGridProps}
-        onPaginationModelChange={(model, details) => {
-          const lastRow = data?.data[data.data.length - 1];
-          const next = lastRow?.commit.committer.date;
-          if (next) {
-            setNext(next);
-          }
-          dataGridProps.onPaginationModelChange?.(model, details);
-        }}
         columns={columns}
         autoHeight
       />

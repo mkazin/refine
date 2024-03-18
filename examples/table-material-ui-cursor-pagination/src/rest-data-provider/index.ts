@@ -13,8 +13,8 @@ export const dataProvider = (
   getList: async ({ resource, metaData, pagination }) => {
     let url = `${apiUrl}/${resource}?per_page=${pagination?.pageSize || 10}`;
 
-    if (metaData?.cursor?.next) {
-      url = `${url}&until=${metaData.cursor.next}`;
+    if (pagination?.current) {
+      url = `${url}&page=${pagination?.current}`;
     }
 
     const { data } = await httpClient.get(url);
